@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/xsanc/AndroidStudioProjects/Save_Your_Time/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/xsanc/AndroidStudioProjects/Save_Your_Time/app/src/main/res/drawable/ic_launcher_background.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/xsanc/AndroidStudioProjects/Save_Your_Time/app/src/main/res/drawable/line_select.xml" value="0.20185185185185187" />
+        <entry key="..\:/Users/xsanc/AndroidStudioProjects/Save_Your_Time/app/src/main/res/layout/activity_block_settings.xml" value="0.1762917933130699" />
+        <entry key="..\:/Users/xsanc/AndroidStudioProjects/Save_Your_Time/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/Users/xsanc/AndroidStudioProjects/Save_Your_Time/app/src/main/res/layout/activity_on.xml" value="0.12001811594202899" />
+        <entry key="..\:/Users/xsanc/AndroidStudioProjects/Save_Your_Time/app/src/main/res/layout/app_to_block.xml" value="0.1" />
+        <entry key="..\:/Users/xsanc/AndroidStudioProjects/Save_Your_Time/app/src/main/res/layout/app_to_clock.xml" value="0.1" />
+        <entry key="..\:/Users/xsanc/AndroidStudioProjects/Save_Your_Time/app/src/main/res/layout/content_on.xml" value="0.12001811594202899" />
+        <entry key="..\:/Users/xsanc/AndroidStudioProjects/Save_Your_Time/app/src/main/res/layout/fragment_first.xml" value="0.12001811594202899" />
+        <entry key="..\:/Users/xsanc/AndroidStudioProjects/Save_Your_Time/app/src/main/res/layout/settings_activity.xml" value="0.1762917933130699" />
+        <entry key="..\:/Users/xsanc/AndroidStudioProjects/Save_Your_Time/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,5 +27,24 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, OnActivity.class);
         intent.putExtra("mode", view.getId());
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id) {
+            case (R.id.action_diary):
+                Intent intent = new Intent(this, DiaryActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 }

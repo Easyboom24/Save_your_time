@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "MyAppDB";
+    public static final int DATABASE_VERSION = 2;
+    public static final String DATABASE_NAME = "MyAppDB.db";
 
     public static  final  String TABLE_APP = "app";
     public static  final  String APP_ID = "_id";
@@ -60,18 +60,18 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_APP + "("
-                + APP_ID + " INTEGER PRIMARY KEY," + APP_NAME + " TEXT," + APP_PATH + " TEXT,"
+                + APP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + APP_NAME + " TEXT," + APP_PATH + " TEXT,"
                 + APP_BLOCKED + " NUMERIC" + ")"
         );
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_FUNCTION + "("
-                + FUNCTION_ID + " INTEGER PRIMARY KEY," + FUNCTION_NAME + " TEXT,"
+                + FUNCTION_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + FUNCTION_NAME + " TEXT,"
                 + FUNCTION_START + " TEXT," + FUNCTION_INTERVAL + " TEXT,"
                 + FUNCTION_COMPLETED + " NUMERIC" + ")"
         );
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_DIARY + "("
-                + DIARY_ID + " INTEGER PRIMARY KEY,"
+                + DIARY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + DIARY_TOPIC + " TEXT,"
                 + DIARY_TEXT + " TEXT,"
                 + DIARY_DATE_CHANGE + " TEXT,"
@@ -80,7 +80,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_ACTIVITY + "("
-                + ACTIVITY_ID + " INTEGER PRIMARY KEY,"
+                + ACTIVITY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + ACTIVITY_START + " TEXT,"
                 + ACTIVITY_END + " TEXT,"
                 + ACTIVITY_APP_ID + " INTEGER NOT NULL, FOREIGN KEY (" + ACTIVITY_APP_ID + ") "
@@ -88,7 +88,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_PLANNED + "("
-                + PLANNED_ID + " INTEGER PRIMARY KEY,"
+                + PLANNED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + PLANNED_REPEAT + " TEXT,"
                 + PLANNED_FUNCTION_ID + " INTEGER NOT NULL, FOREIGN KEY ("
                 + PLANNED_FUNCTION_ID + ") " + "REFERENCES " + TABLE_FUNCTION
@@ -96,7 +96,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_ACHIEVEMENT + "("
-                + ACHIEVEMENT_ID + " INTEGER PRIMARY KEY," + ACHIEVEMENT_NAME + " TEXT,"
+                + ACHIEVEMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + ACHIEVEMENT_NAME + " TEXT,"
                 + ACHIEVEMENT_DATE_ISSUE + " TEXT," + ACHIEVEMENT_POINTS + " TEXT,"
                 + ACHIEVEMENT_FUNCTION_ID + " INTEGER, FOREIGN KEY ("
                 + ACHIEVEMENT_FUNCTION_ID + ") " + "REFERENCES " + TABLE_FUNCTION

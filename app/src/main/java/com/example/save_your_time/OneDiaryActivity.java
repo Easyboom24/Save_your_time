@@ -2,41 +2,64 @@ package com.example.save_your_time;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
-public class OnActivity extends AppCompatActivity {
+public class OneDiaryActivity extends AppCompatActivity {
 
     TextView textView;
     int mYear, mMonth, mDay, mHour, mMinute;
+    boolean newDiary = true;
+    int id;
+    String topic;
+    String text;
+    String date;
+    DBHelper dbHelper;
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_on);
-        final Calendar cal = Calendar.getInstance();
-        mYear = cal.get(Calendar.YEAR);
-        mMonth = cal.get(Calendar.MONTH);
-        mDay = cal.get(Calendar.DAY_OF_MONTH);
-        mHour = cal.get(Calendar.HOUR_OF_DAY);
-        mMinute = cal.get(Calendar.MINUTE);
-        String datetimestart = mDay + "." + mMonth + "." + mYear + " " + mHour + ":" + mMinute;
-        String datetimeend = mDay + "." + mMonth + "." + mYear + " " + (((mHour + 1) < 25) ? mHour + 1 : 0)  + ":" + mMinute;
-        TextView start = findViewById(R.id.start);
-        start.setText(datetimestart);
-        TextView end = findViewById(R.id.end);
-        end.setText(datetimeend);
+        setContentView(R.layout.activity_one_diary);
+
+        Intent intent = getIntent();
+        id = intent.getIntExtra("idDiary", -1);
+        dbHelper = new DBHelper(this);
+        db = dbHelper.getWritableDatabase();
+        if (id != -1)
+        {
+            newDiary = true;
+            Cursor query = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_DIARY + " WHERE " + DBHelper.DIARY_ID + "=" + id, null);
+            query.moveToNext();
+            topic = query.getString(1);
+            text = query.getString(2);
+            date = query.getString(3);
+
+            EditText topicView = (EditText)findViewById(R.id.topic);
+            topicView.setText(topic);
+
+            EditText textView = (EditText)findViewById(R.id.text);
+            textView.setText(text);
+
+            TextView dataView = (TextView)findViewById(R.id.changeDate);
+            dataView.setText(date);
+
+            query.close();
+        }
     }
 
     public void callDatePicker(View view) {
@@ -86,24 +109,11 @@ public class OnActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
+    public void saveData(View view) {
+        EditText topicView = (EditText)findViewById(R.id.topic);
+        EditText textView = (EditText)findViewById(R.id.text);
+        TextView dataView = (TextView)findViewById(R.id.changeDate);
 
-
-    //Вовод списка выбора повтора(каждую неделю/день)
-    public void getAgainList(View view){
-        TextView textView = findViewById(R.id.again);
-        textView.setText("Всегда");
-
-    }
-
-    public void startNow(View view) {
-        CheckBox checkBox = (CheckBox) view;
-        boolean checked = checkBox.isChecked();
-        LinearLayout start = findViewById(R.id.startClick);
-        if (checked) {
-            start.setVisibility(View.GONE);
-        }
-        else {
-            start.setVisibility(View.VISIBLE);
-        }
+        //db.execSQL("UPDATE ");
     }
 }

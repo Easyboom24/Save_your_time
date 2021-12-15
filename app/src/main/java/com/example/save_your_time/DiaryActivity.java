@@ -3,6 +3,7 @@ package com.example.save_your_time;
 import com.example.save_your_time.DBHelper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,6 +42,8 @@ public class DiaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_diary);
         setTitle("Дневник");
 
+        DiaryActivity his = this;
+
         textView = findViewById(R.id.query);
         diaryField = findViewById(R.id.diaryField);
 
@@ -49,6 +53,7 @@ public class DiaryActivity extends AppCompatActivity {
 
        Cursor query = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_DIARY, null);
         while(query.moveToNext()) {
+            int id = query.getInt(0);
             String topic = query.getString(1);
             String text = query.getString(2);
             textView.append("Topic: " + topic + " DateChange: " + text + "\n");
@@ -65,7 +70,7 @@ public class DiaryActivity extends AppCompatActivity {
 
             info = new LinearLayout(this);
             info.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout.LayoutParams infoparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams infoparams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
             infoparams.weight = 3;
             info.setLayoutParams(infoparams);
 
@@ -87,18 +92,35 @@ public class DiaryActivity extends AppCompatActivity {
             block.addView(info);
 
             buttons = new LinearLayout(this);
-            LinearLayout.LayoutParams buttonsparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams buttonsparams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
             buttonsparams.gravity = Gravity.CENTER_VERTICAL;
             buttonsparams.weight = 1;
             buttons.setLayoutParams(buttonsparams);
 
             edit = new ImageButton(this);
+            edit.setId(id);
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(his, OneDiaryActivity.class);
+                    intent.putExtra("idDiary", id);
+                    startActivity(intent);
+                }
+            });
             int dp40 = (int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
             LinearLayout.LayoutParams tobuttonparams = new LinearLayout.LayoutParams(dp40, dp40);
             edit.setLayoutParams(tobuttonparams);
 
             delete = new ImageButton(this);
+            delete.setId(id);
+            delete.setOnClickListener(new View.OnClickListener() {
+                //Удалить запись
+                @Override
+                public void onClick(View v) {
+                    db.execSQL("DELETE FROM " + DBHelper.TABLE_DIARY + "WHERE " + DBHelper.DIARY_ID + " = " + v.getId() + ";");
+                }
+            });
             delete.setLayoutParams(tobuttonparams);
 
             buttons.addView(edit);

@@ -19,6 +19,7 @@ import java.util.Calendar;
 public class OnActivity extends AppCompatActivity {
 
     TextView textView;
+    boolean nowStart = false;
     int mYear, mMonth, mDay, mHour, mMinute;
 
     @Override

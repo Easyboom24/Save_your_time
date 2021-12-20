@@ -13,6 +13,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,13 +24,14 @@ import java.util.Date;
 public class DiaryActivity extends AppCompatActivity {
 
     DBHelper dbHelper;
-    TextView textView;
     LinearLayout diaryField;
     LinearLayout block;
 
     LinearLayout info;
     TextView topicField;
     TextView textField;
+
+    SQLiteDatabase db;
 
     LinearLayout buttons;
     ImageButton edit;
@@ -44,19 +46,17 @@ public class DiaryActivity extends AppCompatActivity {
 
         DiaryActivity his = this;
 
-        textView = findViewById(R.id.query);
         diaryField = findViewById(R.id.diaryField);
 
         dbHelper = new DBHelper(this);
 
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db = dbHelper.getWritableDatabase();
 
-       Cursor query = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_DIARY, null);
+        Cursor query = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_DIARY, null);
         while(query.moveToNext()) {
             int id = query.getInt(0);
             String topic = query.getString(1);
             String text = query.getString(2);
-            textView.append("Topic: " + topic + " DateChange: " + text + "\n");
 
             block = new LinearLayout(this);
             block.setOrientation(LinearLayout.HORIZONTAL);
@@ -99,6 +99,8 @@ public class DiaryActivity extends AppCompatActivity {
 
             edit = new ImageButton(this);
             edit.setId(id);
+            edit.setImageResource(R.drawable.edit);
+            edit.setScaleType(ImageView.ScaleType.FIT_CENTER);
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -107,18 +109,24 @@ public class DiaryActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            int dp40 = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
-            LinearLayout.LayoutParams tobuttonparams = new LinearLayout.LayoutParams(dp40, dp40);
+            int dp60 = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 45, getResources().getDisplayMetrics());
+            LinearLayout.LayoutParams tobuttonparams = new LinearLayout.LayoutParams(dp60, dp60);
             edit.setLayoutParams(tobuttonparams);
 
             delete = new ImageButton(this);
             delete.setId(id);
+            delete.setImageResource(R.drawable.delete);
+            delete.setScaleType(ImageView.ScaleType.FIT_CENTER);
             delete.setOnClickListener(new View.OnClickListener() {
                 //Удалить запись
                 @Override
                 public void onClick(View v) {
-                    db.execSQL("DELETE FROM " + DBHelper.TABLE_DIARY + "WHERE " + DBHelper.DIARY_ID + " = " + v.getId() + ";");
+                    db.execSQL("DELETE FROM " + DBHelper.TABLE_DIARY + " WHERE " + DBHelper.DIARY_ID + " = " + v.getId() + ";");
+                    Intent intent = new Intent(his, DiaryActivity.class);
+                    db.close();
+                    finish();
+                    startActivity(intent);
                 }
             });
             delete.setLayoutParams(tobuttonparams);
@@ -129,8 +137,14 @@ public class DiaryActivity extends AppCompatActivity {
 
             diaryField.addView(block);
         }
-
         query.close();
+    }
+
+    public void createNew(View view)
+    {
+        Intent intent = new Intent(this, OneDiaryActivity.class);
+        intent.putExtra("idDiary", -1);
+        startActivity(intent);
         db.close();
     }
 }

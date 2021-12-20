@@ -29,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openDiary(View view){
+        Intent intent = new Intent(this, DiaryActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -40,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id) {
-            case (R.id.action_diary):
-                Intent intent = new Intent(this, DiaryActivity.class);
+            case (R.id.blockScreen):
+                Intent intent = new Intent(this, BlockFullActivity.class);
                 startActivity(intent);
                 return true;
         }

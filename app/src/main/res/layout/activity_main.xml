@@ -54,7 +54,8 @@
         android:orientation="horizontal"
         android:padding="20dp"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:onClick="openOn">
 
 
         <TextView
@@ -64,4 +65,67 @@
             android:text="Режим 'Без телефона'"
             android:layout_weight="1"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:id = "@+id/planWork"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/without"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="openOn">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            android:text="Плановая работа"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id = "@+id/diary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/planWork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="openDiary">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            android:text="Дневник"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id = "@+id/statistics"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:clickable="true"
+        android:focusable="true">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            android:text="Статистика"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

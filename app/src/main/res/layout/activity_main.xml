@@ -20,11 +20,11 @@
 
 
         <TextView
-            android:layout_width="0dp"
-            android:textSize="20sp"
-            android:layout_height="wrap_content"
-            android:text="Режим блокировки"
-            android:layout_weight="1"/>
+            android:layout_width="218dp"
+            android:layout_height="29dp"
+            android:layout_weight="1"
+            android:text="Режим «Блокировка»"
+            android:textSize="20sp" />
 
         <RelativeLayout
             android:layout_gravity="center_horizontal"
@@ -62,7 +62,7 @@
             android:layout_width="0dp"
             android:textSize="20sp"
             android:layout_height="wrap_content"
-            android:text="Режим 'Без телефона'"
+            android:text="Режим «Без телефона»"
             android:layout_weight="1"/>
     </LinearLayout>
 
@@ -83,7 +83,7 @@
             android:layout_width="0dp"
             android:textSize="20sp"
             android:layout_height="wrap_content"
-            android:text="Плановая работа"
+            android:text="Режим «Плановая работа»"
             android:layout_weight="1"/>
     </LinearLayout>
 

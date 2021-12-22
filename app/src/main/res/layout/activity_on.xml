@@ -123,32 +123,141 @@
             android:padding="20dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="getAgainList">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:text="Повторять:"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/again"
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
                     android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
-                    android:textSize="18sp"
-                    android:textColor="#656363"
-                    android:text="Никогда"
-                    android:layout_alignParentEnd="true"/>
-            </RelativeLayout>
+                    android:text="Пн"/>
+
+                <CheckBox
+                    android:id="@+id/mon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"
+                    android:text="Вт"/>
+
+                <CheckBox
+                    android:id="@+id/tue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"
+                    android:text="Ср"/>
+
+                <CheckBox
+                    android:id="@+id/wed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"
+                    android:text="Чт"/>
+
+                <CheckBox
+                    android:id="@+id/thu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"
+                    android:text="Пт"/>
+
+                <CheckBox
+                    android:id="@+id/fri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"
+                    android:text="Сб"/>
+
+                <CheckBox
+                    android:id="@+id/sat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"
+                    android:text="Вс"/>
+
+                <CheckBox
+                    android:id="@+id/sun"
+                    android:layout_width="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -156,8 +265,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="getAgainList">
+            android:clickable="true">
 
             <EditText
                 android:id="@+id/theme"
@@ -167,6 +275,13 @@
                 android:textSize="18sp"
                 android:inputType="text" />
         </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:onClick="writeOrStart"
+            android:text="Добавить"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

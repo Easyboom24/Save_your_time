@@ -1,5 +1,6 @@
 package com.example.save_your_time;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -36,6 +38,9 @@ public class OneDiaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_diary);
+        ActionBar actionBar =getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         idDiary = intent.getIntExtra("idDiary", -1);
@@ -43,6 +48,7 @@ public class OneDiaryActivity extends AppCompatActivity {
         db = dbHelper.getWritableDatabase();
         if (idDiary != -1)
         {
+            setTitle("Редактирование записи");
             newDiary = false;
             Cursor query = db.rawQuery("SELECT * FROM " + DBHelper.TABLE_DIARY + " WHERE " + DBHelper.DIARY_ID + "=" + idDiary, null);
             query.moveToNext();
@@ -60,6 +66,9 @@ public class OneDiaryActivity extends AppCompatActivity {
             dataView.setText(date);
 
             query.close();
+        }
+        else{
+            setTitle("Добавление записи");
         }
     }
 
@@ -89,5 +98,16 @@ public class OneDiaryActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DiaryActivity.class);
         finish();
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

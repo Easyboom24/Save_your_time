@@ -11,12 +11,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Date;
@@ -42,6 +44,9 @@ public class DiaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
+        ActionBar actionBar =getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         setTitle("Дневник");
 
         DiaryActivity his = this;
@@ -106,6 +111,7 @@ public class DiaryActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(his, OneDiaryActivity.class);
                     intent.putExtra("idDiary", id);
+                    finish();
                     startActivity(intent);
                 }
             });
@@ -144,7 +150,19 @@ public class DiaryActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(this, OneDiaryActivity.class);
         intent.putExtra("idDiary", -1);
+        this.finish();
         startActivity(intent);
         db.close();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

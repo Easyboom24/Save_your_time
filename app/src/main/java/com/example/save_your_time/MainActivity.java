@@ -34,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openStatistics(View view) {
+        Intent intent = new Intent(this, StatisticsActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -52,4 +57,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
 }

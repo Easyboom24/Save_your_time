@@ -175,6 +175,7 @@ public class OnActivity extends AppCompatActivity {
             }*/
 
             //После записи в БД запускается сервис с функцияей
+            startService(new Intent(this, MyService.class));
         }
         else
         {

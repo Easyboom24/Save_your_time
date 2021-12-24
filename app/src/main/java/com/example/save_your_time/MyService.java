@@ -23,6 +23,7 @@ public class MyService extends Service {
     BroadcastReceiver mReceiver;
     ExecutorService es;
     FailTimerTask failTimerTask;
+    boolean fail = false;
 
     @Override
     public void onCreate() {
@@ -34,6 +35,17 @@ public class MyService extends Service {
         registerReceiver(mReceiver, filter);
         es = Executors.newFixedThreadPool(1);
 
+        Intent intent1 = new Intent(this,BlockSettingsActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent1,0);
+
+        Notification notification = new NotificationCompat.Builder(this,"ChannelId1")
+                .setContentTitle("Режим \"Без телефона\"")
+                .setContentText("Вы обязались не использовать телефон и не должны видеть это уведомление!")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pendingIntent).build();
+        //com.sololearn
+        startForeground(1,notification);
 
     }
 
@@ -51,7 +63,6 @@ public class MyService extends Service {
         return START_STICKY;
     }
 
-    //
 
 
     @Override
@@ -95,6 +106,7 @@ public class MyService extends Service {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             Log.e("Fail", "Ended");
+            fail = true;
             stopSelf();
         }
     }

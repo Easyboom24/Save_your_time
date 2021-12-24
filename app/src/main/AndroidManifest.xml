@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +17,12 @@
         <service
             android:name=".WithoutService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true"/>
+        <service
+            android:name=".MyService2"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":remote"/>
 
         <receiver
             android:name=".ScreenReceiver"

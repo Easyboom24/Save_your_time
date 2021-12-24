@@ -15,5 +15,23 @@
 
     </ListView>
 
+    <FrameLayout
+        android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:onClick="startBlock"
+        android:text="Подтвердить"
+        tools:layout_editor_absoluteX="132dp"
+        tools:layout_editor_absoluteY="641dp" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -176,7 +176,7 @@ public class OnActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }*/
 
-            //После записи в БД запускается сервис с функцияей
+            //После записи в БД запускается сервис с функцией
 
                 startService(new Intent(this, WithoutService.class));
 

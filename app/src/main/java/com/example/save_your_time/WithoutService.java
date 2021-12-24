@@ -22,27 +22,25 @@ public class WithoutService extends Service {
     @SuppressLint("NewApi")
     @Override
     public void onCreate(){
-        /*Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent =
-                PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        Intent intent1 = new Intent(this, MainActivity.class);
 
-        Notification notification = null;
-            notification = new Notification.Builder(this, "1337")
-                    .setContentTitle("Ы")
-                    .setContentText("Гыгы")
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentIntent(pendingIntent)
-                    .setTicker("Ыгыгы")
-                    .build();
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent1,0);
 
-
-// Notification ID cannot be 0.
-        startForeground(1337, notification);*/
+        Notification notification = new NotificationCompat.Builder(this,"ChannelId1")
+                .setContentTitle("Режим \"Без телефона\"")
+                .setContentText("Вы не должны видеть это уведомление!")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pendingIntent).build();
+        //com.sololearn
+        startForeground(1,notification);
         super.onCreate();
+
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         interval = 15;
         startService(new Intent(this, MyService.class));
         WaitIntervalTask waitIntervalTask = new WaitIntervalTask();
@@ -54,6 +52,28 @@ public class WithoutService extends Service {
     public void onDestroy(){
         Log.e("Func", "Destroy");
         stopService(new Intent(this, MyService.class));
+        Intent intent1 = new Intent(this, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent1,0);
+
+        Notification notification = new NotificationCompat.Builder(this ,"ChannelId1")
+                .setContentTitle("Режим \"Без телефона\"")
+                .setContentText("Вы не должны видеть это уведомление!")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pendingIntent).build();
+        //com.sololearn
+        synchronized(notification){
+            // notify() is being called here when the thread and
+            // synchronized block does not own the lock on the object.
+            Log.e("Notifycation", "Should be");
+            notification.notify();
+        }
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -71,7 +91,7 @@ public class WithoutService extends Service {
         @Override
         protected Void doInBackground(Void... voids) {
             try{
-                TimeUnit.SECONDS.sleep(60);
+                TimeUnit.SECONDS.sleep(10);
             }catch (InterruptedException e){
                 e.printStackTrace();
             }

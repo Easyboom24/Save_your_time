@@ -2,6 +2,8 @@ package com.example.save_your_time;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ActivityManager;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -9,14 +11,18 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
@@ -35,10 +41,9 @@ public class BlockSettingsActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_block_settings);
-        //ActionBar actionBar = getSupportActionBar();
+        //ActionBar actionBar =getSupportActionBar();
         //actionBar.setHomeButtonEnabled(true);
-        //actionBar.setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_block_settings);
         setTitle("Настройки блокировки");
 
         packageManager = getPackageManager();
@@ -47,23 +52,19 @@ public class BlockSettingsActivity extends ListActivity {
         //Получить все возможные приложения и вывести их с помощью кода (настройки блока в layout)
     }
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
+    public void startBlock(View view){
 
-        ApplicationInfo app = (ApplicationInfo) applist.get(position);
+        Intent intent = new Intent(this,MyService2.class);
 
-        try{
-            Intent intent = packageManager.getLaunchIntentForPackage(app.packageName);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
 
-            if(intent != null) {
-                startActivity(intent);
-            }
-        } catch(ActivityNotFoundException e) {
-            Toast.makeText(BlockSettingsActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-        } catch(Exception e) {
-            Toast.makeText(BlockSettingsActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            startForegroundService(intent);
         }
+        else{
+            startService(intent);
+        }
+        Intent intentMain = new Intent(this,MainActivity.class);
+        startActivity(intentMain);
     }
 
     private List checkForLaunchIntent(List list) {
@@ -90,11 +91,8 @@ public class BlockSettingsActivity extends ListActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-
             applist = checkForLaunchIntent(packageManager.getInstalledApplications(PackageManager.GET_META_DATA));
-
             listadapter = new AppAdapter(BlockSettingsActivity.this, R.layout.list_item, applist);
-
             return null;
         }
 
@@ -118,6 +116,7 @@ class AppAdapter extends ArrayAdapter{
     private List appList = null;
     private Context context;
     private PackageManager packageManager;
+
 
     public AppAdapter(Context context, int resource,
                       List objects) {
@@ -156,11 +155,13 @@ class AppAdapter extends ArrayAdapter{
         ApplicationInfo data = (ApplicationInfo) appList.get(position);
 
         if(null != data) {
-            TextView appName = (TextView) view.findViewById(R.id.app_name);
-            //TextView packageName = (TextView) view.findViewById(R.id.app_package);
+            //TextView appName = (TextView) view.findViewById(R.id.app_name);
+            Switch switchO = (Switch) view.findViewById(R.id.switch_block);
+            //TextView packageName = (TextView) view.findViewById(R.id.app_name);
             ImageView iconView = (ImageView) view.findViewById(R.id.app_icon);
 
-            appName.setText(data.loadLabel(packageManager));
+            switchO.setText(data.loadLabel(packageManager));
+            //appName.setText(data.loadLabel(packageManager));
             //packageName.setText(data.packageName);
             iconView.setImageDrawable(data.loadIcon(packageManager));
         }

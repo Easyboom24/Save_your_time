@@ -2,6 +2,7 @@ package com.example.save_your_time;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,9 +26,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openOn(View view) {
-        Intent intent = new Intent(this, OnActivity.class);
-        intent.putExtra("mode", view.getId());
-        startActivity(intent);
+        if (!isMyServiceRunning(WithoutService.class) && !isMyServiceRunning(MyService2.class)) {
+            Intent intent = new Intent(this, OnActivity.class);
+            intent.putExtra("mode", view.getId());
+            startActivity(intent);
+        }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(MainActivity.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void openDiary(View view){

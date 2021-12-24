@@ -52,27 +52,6 @@ public class WithoutService extends Service {
     public void onDestroy(){
         Log.e("Func", "Destroy");
         stopService(new Intent(this, MyService.class));
-        Intent intent1 = new Intent(this, MainActivity.class);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent1,0);
-
-        Notification notification = new NotificationCompat.Builder(this ,"ChannelId1")
-                .setContentTitle("Режим \"Без телефона\"")
-                .setContentText("Вы не должны видеть это уведомление!")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(pendingIntent).build();
-        //com.sololearn
-        synchronized(notification){
-            // notify() is being called here when the thread and
-            // synchronized block does not own the lock on the object.
-            Log.e("Notifycation", "Should be");
-            notification.notify();
-        }
-        try {
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
     }
 

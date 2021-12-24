@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -39,9 +40,12 @@ import java.util.Map;
 public class OnActivity extends AppCompatActivity {
 
     TextView textView;
+    TextView pointsText;
+    LinearLayout pointsField;
+    int points;
     boolean nowStart = false;
     int mYear, mMonth, mDay, mHour, mMinute, mode;
-
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +74,35 @@ public class OnActivity extends AppCompatActivity {
         if (mode != R.id.planWork) {
             nowStart = true;
             setTitle((mode == R.id.block) ? "Блокировка" : "\"Без телефона\"");
+            ((Button)(findViewById(R.id.button))).setText("Старт");
             findViewById(R.id.modeField).setVisibility(View.GONE);
             findViewById(R.id.startClick).setVisibility(View.GONE);
             findViewById(R.id.againField).setVisibility(View.GONE);
         }
         else {
             setTitle("Плановая работа");
+        }
+
+        if (mode == R.id.without){
+            DBHelper dbHelper = new DBHelper(this);
+            db = dbHelper.getWritableDatabase();
+
+            Cursor query = db.rawQuery("SELECT " + DBHelper.ACHIEVEMENT_POINTS + " FROM " +
+                    DBHelper.TABLE_ACHIEVEMENT, null);
+            points = 0;
+            while(query.moveToNext()) {
+                points += query.getInt(0);
+            }
+            if (points < 0)
+                points = 0;
+            pointsText = findViewById(R.id.points);
+            pointsField = findViewById(R.id.pointsField);
+            pointsField.setVisibility(View.VISIBLE);
+            String pointString = points + "";
+            pointsText.setText(pointString);
+
+            query.close();
+            db.close();
         }
     }
 
@@ -179,7 +206,7 @@ public class OnActivity extends AppCompatActivity {
             //После записи в БД запускается сервис с функцией
 
                 startService(new Intent(this, WithoutService.class));
-
+                finish();
         }
         else
         {

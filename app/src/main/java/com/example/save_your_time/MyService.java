@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
@@ -24,6 +25,8 @@ public class MyService extends Service {
     ExecutorService es;
     FailTimerTask failTimerTask;
     boolean fail = false;
+    SQLiteDatabase db;
+
 
     @Override
     public void onCreate() {
@@ -71,6 +74,12 @@ public class MyService extends Service {
         Log.e("SCREEN", "DESTROY");
         unregisterReceiver(mReceiver);
         stopService(new Intent(this, WithoutService.class));
+
+        DBHelper dbHelper = new DBHelper(this);
+        db = dbHelper.getWritableDatabase();
+        int points = (fail) ? -10 : 10;
+        db.execSQL("INSERT INTO " + DBHelper.TABLE_ACHIEVEMENT +
+                        "(" + DBHelper.ACHIEVEMENT_POINTS + ") VALUES(" + points + ")");
     }
 
     @Override

@@ -6,10 +6,17 @@ import android.content.Intent;
 
 public class ScreenReceiver extends BroadcastReceiver {
 
+    private boolean screenOff;
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO: This method is called when the BroadcastReceiver is receiving
-        // an Intent broadcast.
-        throw new UnsupportedOperationException("Not yet implemented");
+        if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+            screenOff = true;
+        } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+            screenOff = false;
+        }
+        Intent i = new Intent(context, MyService.class);
+        i.putExtra("screen_state", screenOff);
+        context.startService(i);
     }
 }

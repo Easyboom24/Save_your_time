@@ -1,39 +1,101 @@
 package com.example.save_your_time;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.core.app.NotificationCompat;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class MyService extends Service {
 
-    @Override
-    public void onCreate(){
-        super.onCreate();
+    BroadcastReceiver mReceiver;
+    ExecutorService es;
+    FailTimerTask failTimerTask;
 
-        Toast.makeText(this, "Служба создана",
-                Toast.LENGTH_SHORT).show();
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        // REGISTER RECEIVER THAT HANDLES SCREEN ON AND SCREEN OFF LOGIC
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        mReceiver = new ScreenReceiver();
+        registerReceiver(mReceiver, filter);
+        es = Executors.newFixedThreadPool(1);
+
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "Служба запущена",
-                Toast.LENGTH_SHORT).show();
-        //Здесь запускается функция блокировки или без телефона
-
-        return super.onStartCommand(intent, flags, startId);
+        boolean screenOn = intent.getBooleanExtra("screen_state", false);
+        if (!screenOn) {
+            failTimerTask = new FailTimerTask();
+            failTimerTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            Log.e("SCREEN", "ON " + startId);
+        } else {
+            failTimerTask.cancel(false);
+            Log.e("SCREEN", "OFF " + startId);
+        }
+        return START_STICKY;
     }
+
+    //
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "Служба остановлена",
-                Toast.LENGTH_SHORT).show();
+        Log.e("SCREEN", "DESTROY");
+        unregisterReceiver(mReceiver);
+        stopService(new Intent(this, WithoutService.class));
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    class FailTimerTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onCancelled(){
+            Log.e("Fail", "Cancelled");
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Log.e("Fail", "Started");
+            try{
+                TimeUnit.SECONDS.sleep(5);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.e("Fail", "Ended");
+            stopSelf();
+        }
     }
 }

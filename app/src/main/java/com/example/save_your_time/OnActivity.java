@@ -16,6 +16,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -175,7 +177,9 @@ public class OnActivity extends AppCompatActivity {
             }*/
 
             //После записи в БД запускается сервис с функцияей
-            startService(new Intent(this, MyService.class));
+
+                startService(new Intent(this, WithoutService.class));
+
         }
         else
         {
